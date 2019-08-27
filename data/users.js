@@ -17,10 +17,11 @@ const insert = user => {
     password: user.password
   }
 
-  return db('users').insert(data);
+  return db('users').insert(data, 'id');
 }
 
 module.exports = {
+  find,
   findByEmail,
   insert
 }
