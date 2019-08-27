@@ -56,7 +56,7 @@ router.post("/login", (req, res) => {
         console.log(err);
         return res.status(500).json({
           message: "Internal Error: Unable to retrieve specified user.",
-          detai: err
+          detail: err
         });
       });
   } else {
