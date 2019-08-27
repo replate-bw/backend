@@ -117,7 +117,7 @@ router.post("/signup", (req, res) => {
           })
           .catch(err => {
             console.log(err);
-            return res.status(500).json({ message: "Failed to create user." });
+            return res.status(500).json({ message: "Failed to create user.", detail: err });
           });
       }
     }).catch(err => {
