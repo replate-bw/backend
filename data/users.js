@@ -1,6 +1,5 @@
 const db = require('./dbConfig');
 
-
 const findByEmail = email => {
   return db('users').where('email', email);
 }
