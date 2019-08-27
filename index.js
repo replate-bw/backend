@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 const auth = require('./auth');
+const appts = require('./appointments');
 
 const server = express();
 
@@ -14,6 +15,7 @@ server.use(cors());
 server.use(express.json());
 
 server.use('/auth', auth);
+server.use('/appointments', appts);
 
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);

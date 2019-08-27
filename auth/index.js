@@ -129,12 +129,12 @@ router.post("/signup", (req, res) => {
 
 function getJwt(user) {
   const payload = {
-    accountType: user.account_type
+    accountType: user.account_type || user.accountType,
+    name: user.name,
+    id: user.id
   };
   const secret = process.env.JWT_SECRET;
-  const options = {
-    expiresIn: "1w"
-  };
+  const options = {};
   return jwt.sign(payload, secret, options);
 }
 
