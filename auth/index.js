@@ -16,8 +16,7 @@ router.post("/login", (req, res) => {
     req.body.password.trim()
   ) {
     userDb
-      .findByEmail(req.body.email)
-      .then(users => {
+      .findByEmail(req.body.email).then(users => {
         const user = users[0];
         const password = user ? user.password : "";
         if (!user || !password) {
