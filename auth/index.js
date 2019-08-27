@@ -84,7 +84,7 @@ router.post("/signup", (req, res) => {
         "Please make sure to provide 'firstName', 'lastName', 'email', 'password' and 'accountType' as those are required fields."
     });
   } else {
-    if (accountType !== "business" && accountType !== "volunteer") {
+    if (req.body.accountType !== "business" && req.body.accountType !== "volunteer") {
       return res
         .status(400)
         .json({
