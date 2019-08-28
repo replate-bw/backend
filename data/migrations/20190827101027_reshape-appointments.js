@@ -1,8 +1,8 @@
 
 exports.up = function(knex) {
   return knex.schema.table('appointments', tbl => {
-    tbl.int('business_id');
-    tbl.int('volunteer_id');
+    tbl.integer('business_id');
+    tbl.integer('volunteer_id');
   }).dropTableIfExists('user_appointments');
 };
 
