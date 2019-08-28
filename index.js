@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const auth = require('./auth');
 const appts = require('./appointments');
+const locs = require('./locations');
 
 const server = express();
 
@@ -16,6 +17,7 @@ server.use(express.json());
 
 server.use('/auth', auth);
 server.use('/appointments', appts);
+server.use('/locations', locs);
 
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);

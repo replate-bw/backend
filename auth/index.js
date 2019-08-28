@@ -39,10 +39,7 @@ router.post("/login", (req, res) => {
               },
               address: user.address,
               email: user.email,
-              accountType: user.account_type,
-              appointments: [
-                // Add appointment data here.
-              ]
+              accountType: user.account_type
             };
             return res.status(200).json(response);
           } else {
