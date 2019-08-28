@@ -25,6 +25,17 @@ router.get('/', (req, res) => {
   })
 });
 
+router.get('/:id', (req, res) => {
+  locDb.findById(req.params.id)
+  .then(loc => {
+    return res.status(200).json(loc[0]);
+  })
+  .catch(err => {
+    console.log(err);
+    return res.status(500).json({message: "Unable to retrieve location due to an internal error."});
+  })
+})
+
 router.delete('/:id', (req, res) => {
   if(!req.headers.authorization)  return res.status(401).json({message: "Unauthorized: Provide a token in header in order to update locations."});
   jwt.verify(req.headers.authorization, process.env.JWT_SECRET, (err, decodedToken) => {
