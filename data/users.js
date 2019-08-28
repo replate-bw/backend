@@ -21,7 +21,6 @@ const insert = user => {
 }
 
 module.exports = {
-  find,
   findByEmail,
   insert
 }
