@@ -44,6 +44,44 @@ router.get("/", (req, res) => {
   }
 });
 
+router.get('/mine', (req, res) => {
+  if(!req.headers.authorization) return res.status(401).json({
+    message:
+      "You must provide an 'authorization' header with a valid token in order to access this resource."
+  }); 
+  jwt.verify(req.headers.authorization, process.env.JWT_SECRET, (err, decodedToken) => {
+    if(err) {
+      console.log(err);
+      return res
+            .status(401)
+            .json({ message: "Unauthorized: Invalid token" });
+    }
+    console.log(decodedToken);
+    if(decodedToken.accountType === 'business') {
+      apptDb.findByBusiness(decodedToken.id)
+      .then(appts => {
+        return res.status(200).json(appts);
+      })
+      .catch(err => {
+        console.log(err);
+        return res.status(500).json({message: "Failed to retrieve appointments due to an internal error."});
+      })
+    } else if(decodedToken.accountType === 'volunteer') {
+      apptDb.findByVolunteer(decodedToken.id)
+      .then(appts => {
+        return res.status(200).json(appts);
+      })
+      .catch(err => {
+        console.log(err);
+        return res.status(500).json({message: "Failed to retrieve appointments due to an internal error."});
+      })
+    } else {
+      return res.status(401).json({message: "Unauthorized: Bad token"});
+    }
+    
+  })
+})
+
 router.put("/:id", (req, res) => {
   if (!req.headers.authorization) {
     return res.status(401).json({
