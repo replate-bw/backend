@@ -195,7 +195,7 @@ router.post("/", (req, res) => {
               .status(401)
               .json({ message: "Must be a business to post an appointment." });
           } else {
-            const { time, quantity, type, status } = req.body;
+            const { time, quantity, type, status, locationId } = req.body;
 
             if (
               !time ||
@@ -205,11 +205,12 @@ router.post("/", (req, res) => {
               !type ||
               !type.trim() ||
               !status ||
-              !status.trim()
+              !status.trim() ||
+              !locationId
             ) {
               return res.status(400).json({
                 message:
-                  "Please provide 'time', 'quantity', 'type' and 'status' fields to create a new appointment."
+                  "Please provide 'time', 'quantity', 'type', 'status' and 'locationId' fields to create a new appointment."
               });
             } else {
               const newAppt = {
@@ -217,7 +218,8 @@ router.post("/", (req, res) => {
                 quantity,
                 type,
                 status,
-                business_id: decodedToken.id
+                business_id: decodedToken.id,
+                location_id: locationId
               };
 
               apptDb
