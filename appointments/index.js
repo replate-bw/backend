@@ -82,6 +82,35 @@ router.get('/mine', (req, res) => {
   })
 })
 
+router.post('/accept/:id', (req, res) => {
+  if(!req.headers.authorization) return res.status(401).json({
+    message:
+      "You must provide an 'authorization' header with a valid token in order to access this resource."
+  });
+
+  jwt.verify(req.headers.authorization, process.env.JWT_SECRET, (err, decodedToken) => {
+    if(err) return res
+    .status(401)
+    .json({ message: "Unauthorized: Invalid token" });
+
+    apptDb.findById(req.params.id)
+    .then(appts => {
+      if(appts.length === 0) return res.status(404).json({message: "The appointment with the specified ID does not exist"});
+      const appt = appts[0];
+      appt.volunteer_id = decodedToken.id;
+      appt.status = "Assigned";
+      apptDb.update(req.params.id, appt)
+      .then(affected => {
+        return res.status(200).json(appt);
+      })
+      .catch(err => {
+        console.log(err);
+        return res.status(500).json({message: "Failed to accept appointment due to an internal error"});
+      })
+    })
+  });
+});
+
 router.put("/:id", (req, res) => {
   if (!req.headers.authorization) {
     return res.status(401).json({
