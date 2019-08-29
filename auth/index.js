@@ -81,24 +81,21 @@ router.post("/signup", (req, res) => {
         "Please make sure to provide 'firstName', 'lastName', 'email', 'password' and 'accountType' as those are required fields."
     });
   } else {
-    if (
-      req.body.accountType !== "business" &&
-      req.body.accountType !== "volunteer"
-    ) {
-      return res.status(400).json({
-        message:
-          "Invalid value for account type: " +
-          accountType +
-          ". Valid options are ['volunteer', 'business']"
-      });
+    if (req.body.accountType !== "business" && req.body.accountType !== "volunteer") {
+      return res
+        .status(400)
+        .json({
+          message:
+            "Invalid value for account type: " +
+            accountType +
+            ". Valid options are ['volunteer', 'business']"
+        });
     } else {
       const newEntity = {
         name: req.body.name,
-        contact: {
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          phone: req.body.phone
-        },
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        phone: req.body.phone,
         address: req.body.address,
         email: req.body.email,
         accountType: req.body.accountType
@@ -122,7 +119,21 @@ router.post("/signup", (req, res) => {
                 newEntity.id = id[0];
                 newEntity.token = getJwt(newEntity);
 
-                return res.status(200).json(newEntity);
+                const responseEntity = {
+                  name: newEntity.name,
+                  email: newEntity.email,
+                  address: newEntity.address,
+                  accountType: newEntity.accountType,
+                  id: id[0],
+                  token: getJwt(newEntity),
+                  contact: {
+                    firstName: newEntity.firstName,
+                    lastName: newEntity.lastName,
+                    phone: newEntity.phone
+                  }
+                }
+
+                return res.status(200).json(responseEntity);
               })
               .catch(err => {
                 console.log(err);
