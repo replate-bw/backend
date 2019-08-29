@@ -81,21 +81,24 @@ router.post("/signup", (req, res) => {
         "Please make sure to provide 'firstName', 'lastName', 'email', 'password' and 'accountType' as those are required fields."
     });
   } else {
-    if (req.body.accountType !== "business" && req.body.accountType !== "volunteer") {
-      return res
-        .status(400)
-        .json({
-          message:
-            "Invalid value for account type: " +
-            accountType +
-            ". Valid options are ['volunteer', 'business']"
-        });
+    if (
+      req.body.accountType !== "business" &&
+      req.body.accountType !== "volunteer"
+    ) {
+      return res.status(400).json({
+        message:
+          "Invalid value for account type: " +
+          accountType +
+          ". Valid options are ['volunteer', 'business']"
+      });
     } else {
       const newEntity = {
         name: req.body.name,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        phone: req.body.phone,
+        contact: {
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          phone: req.body.phone
+        },
         address: req.body.address,
         email: req.body.email,
         accountType: req.body.accountType
